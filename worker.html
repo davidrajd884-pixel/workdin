@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Worker Registration</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<header>
+    <h1>WORKDIN</h1>
+</header>
+
+<section class="register-section">
+
+<h2>👷 Register As Worker</h2>
+
+<input type="text"
+id="name"
+placeholder="Full Name">
+
+<input
+type="text"
+id="workType"
+list="professionList"
+placeholder="Type or Select Profession">
+
+<datalist id="professionList">
+<option value="Electrician">
+<option value="Plumber">
+<option value="Carpenter">
+<option value="Mason">
+<option value="Painter">
+<option value="Welder">
+<option value="Mechanic">
+<option value="Driver">
+<option value="Mobile Repair">
+<option value="AC Repair">
+<option value="CCTV Technician">
+<option value="House Cleaning">
+<option value="Gardener">
+</datalist>
+
+<input type="text"
+id="location"
+placeholder="Village / Location">
+<input type="tel"
+id="phone"
+placeholder="Mobile Number">
+<input type="file"
+id="photo"
+accept="image/*"><label>
+
+Upload Previous Work Photos
+
+</label>
+
+<input
+type="file"
+id="jobPhotos"
+multiple
+accept="image/*">
+
+<button onclick="registerWorker()">
+Register
+</button>
+<p id="successMessage"></p>
+
+</section><nav class="bottom-nav">
+
+<a href="index.html">
+🏠 Home
+</a>
+
+<a href="worker.html">
+👷 Register
+</a>
+
+
+</nav>
+
+<script src="script.js"></script>
+
+</body>
+</html>

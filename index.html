@@ -1,14 +1,127 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="manifest" href="/manifest.json" />
-    <title>Aura Jobs MVP</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>WORKDIN</title>
+
+<link rel="stylesheet"
+href="style.css">
+
+</head>
+
+<body>
+
+<div class="top-banner">
+
+<img
+src="ChatGPT Image Jun 6, 2026, 11_17_12 PM.png"
+class="banner-logo">
+
+<h2>
+Find Skilled Workers Near You
+</h2>
+
+<div class="search-box">
+
+<input
+type="text"
+id="searchInput"
+placeholder="Search workers..."
+onkeyup="searchWorkers()">
+
+<button
+onclick="searchWorkers()">
+
+🔍
+
+</button>
+
+</div>
+
+</div>
+
+<div class="categories">
+
+<button onclick="filterCategory('All')">All</button>
+
+<button onclick="filterCategory('Electrician')">⚡ Electrician</button>
+
+<button onclick="filterCategory('Plumber')">🚰 Plumber</button>
+
+<button onclick="filterCategory('Carpenter')">🪚 Carpenter</button>
+
+<button onclick="filterCategory('Mason')">🧱 Mason</button>
+
+<button onclick="filterCategory('Painter')">🎨 Painter</button>
+
+<button onclick="filterCategory('Mechanic')">🔧 Mechanic</button>
+
+<button onclick="filterCategory('Driver')">🚗 Driver</button>
+
+<button onclick="filterCategory('Welder')">🔥 Welder</button>
+
+<button onclick="filterCategory('AC Repair')">❄️ AC Repair</button>
+
+<button onclick="filterCategory('Mobile Repair')">📱 Mobile Repair</button>
+
+<button onclick="filterCategory('TV Repair')">📺 TV Repair</button>
+
+<button onclick="filterCategory('Computer Repair')">💻 Computer Repair</button>
+
+<button onclick="filterCategory('Fridge Repair')">🧊 Fridge Repair</button>
+
+<button onclick="filterCategory('Water Purifier')">💧 RO Service</button>
+
+<button onclick="filterCategory('House Cleaning')">🧹 Cleaning</button>
+
+<button onclick="filterCategory('Gardener')">🌱 Gardener</button>
+
+<button onclick="filterCategory('Cook')">👨‍🍳 Cook</button>
+
+<button onclick="filterCategory('Tailor')">🧵 Tailor</button>
+
+<button onclick="filterCategory('Security Guard')">🛡️ Security</button>
+
+<button onclick="filterCategory('Photographer')">📷 Photographer</button>
+
+<button onclick="filterCategory('Event Decorator')">🎉 Decorator</button>
+
+<button onclick="filterCategory('Packers Movers')">📦 Packers</button>
+
+<button onclick="filterCategory('Tutor')">📚 Tutor</button>
+
+<button onclick="filterCategory('Beauty Service')">💄 Beauty Service</button>
+
+<button onclick="filterCategory('Construction Contractor')">🏗️ Contractor</button>
+
+</div>
+
+<h2 class="section-title">
+Available Workers
+</h2>
+
+<div id="workerContainer">
+
+</div>
+
+<nav class="bottom-nav">
+
+<a href="index.html">
+🏠 Home
+</a>
+<a href="worker.html">👷 Register</a>
+
+
+</nav>
+
+<script src="script.js"></script>
+
+</body>
+
 </html>
