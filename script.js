@@ -1,4 +1,10 @@
-let workers = JSON.parse(localStorage.getItem("workers")) || [];
+import {
+db,
+collection,
+addDoc,
+getDocs
+} from "./firebase.js";
+let workers =  [];
 
 /* ==========================
    REGISTER WORKER
@@ -75,13 +81,12 @@ jobPhotosInput
    SAVE WORKER
 ========================== */
 
-function saveWorker(
+async function saveWorker(
 name,
 workType,
 location,
 phone,
-photo,
-jobPhotosInput
+photo
 ){
 
 const worker = {
@@ -89,26 +94,33 @@ name,
 workType,
 location,
 phone,
-photo,
-jobPhotos:[]
+photo
 };
 
-workers.push(worker);
+try{
 
-localStorage.setItem(
-"workers",
-JSON.stringify(workers)
+await addDoc(
+collection(db,"workers"),
+worker
 );
 
 alert("✅ Worker Registered Successfully!");
 
-document.getElementById("name").value = "";
-document.getElementById("workType").value = "";
-document.getElementById("location").value = "";
-document.getElementById("phone").value = "";
+document.getElementById("name").value="";
+document.getElementById("workType").value="";
+document.getElementById("location").value="";
+document.getElementById("phone").value="";
 
 if(document.getElementById("photo")){
-document.getElementById("photo").value = "";
+document.getElementById("photo").value="";
+}
+
+}catch(error){
+
+console.error(error);
+
+alert("❌ Failed to save worker");
+
 }
 
 }
@@ -326,3 +338,25 @@ localStorage.setItem(
 "selectedWorker",
 phone
 );
+async function loadWorkers(){
+
+const querySnapshot =
+await getDocs(
+collection(db,"workers")
+);
+
+workers = [];
+
+querySnapshot.forEach(doc=>{
+
+workers.push(doc.data());
+
+});
+
+if(document.getElementById("workerContainer")){
+displayWorkers(workers);
+}
+
+}
+
+loadWorkers();
