@@ -331,15 +331,8 @@ phone
 
 window.location.href =
 "worker-profile.html";
-
 }
-
-localStorage.setItem(
-"selectedWorker",
-phone
-);
 async function loadWorkers(){
-
 const querySnapshot =
 await getDocs(
 collection(db,"workers")
@@ -360,3 +353,7 @@ displayWorkers(workers);
 }
 
 loadWorkers();
+window.registerWorker = registerWorker;
+window.searchWorkers = searchWorkers;
+window.filterCategory = filterCategory;
+window.openProfile = openProfile;
