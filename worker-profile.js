@@ -1,319 +1,148 @@
-const workers =
-JSON.parse(
-localStorage.getItem("workers")
-) || [];
+import {
+db,
+collection,
+getDocs
+}
+from "./firebase.js";
+
+async function loadWorkerProfile(){
 
 const selectedPhone =
 localStorage.getItem(
 "selectedWorker"
 );
 
-const worker =
-workers.find(
-w => w.phone === selectedPhone
-);
+if(!selectedPhone){
 
-const container =
 document.getElementById(
 "workerProfileContainer"
+).innerHTML =
+"<h2>No Worker Selected</h2>";
+
+return;
+}
+
+const snapshot =
+await getDocs(
+collection(db,"workers")
 );
 
-if(worker){
+let found = false;
 
-container.innerHTML = `
+snapshot.forEach(doc=>{
 
+const worker = doc.data();
+
+if(worker.phone === selectedPhone){
+
+found = true;
+
+const reviewsHtml =
+(worker.reviews || [])
+.map(review =>
+
+`<li>${review}</li>`
+
+).join("");
+
+const photosHtml =
+(worker.jobPhotos || [])
+.map(photo =>
+
+`<img
+src="${photo}"
+class="gallery-image">`
+
+).join("");
+
+document.getElementById(
+"workerProfileContainer"
+).innerHTML =
+
+`
 <div class="worker-card">
 
 <img
 src="${
-worker.photo
-?
-worker.photo
-:
-'https://via.placeholder.com/120'
-}" 
+worker.photo ||
+'https://via.placeholder.com/150'
+}"
 class="worker-photo">
 
 <h2>${worker.name}</h2>
 
 <p class="profession-badge">
+
 ${worker.workType}
-</p>
 
-<p>📍 ${worker.location}</p>
-
-<p>📞 ${worker.phone}</p>
-
-<h3>⭐ Rate This Worker</h3>
-
-<div class="rating-stars">
-
-<span onclick="selectRating(1)">⭐</span>
-<span onclick="selectRating(2)">⭐</span>
-<span onclick="selectRating(3)">⭐</span>
-<span onclick="selectRating(4)">⭐</span>
-<span onclick="selectRating(5)">⭐</span>
-
-</div>
-
-<h3>📝 Write Feedback</h3>
-
-<textarea
-id="reviewText"
-placeholder="Share your experience...">
-</textarea>
-
-<br><br>
-
-<button onclick="submitReview()">
-Submit Feedback
-</button>
-
-<hr>
-
-<h3>📸 Previous Works</h3>
-
-<input
-type="file"
-id="jobPhotos"
-multiple
-accept="image/*">
-
-<br><br>
-
-<button
-onclick="uploadJobImages()">
-Upload Photos
-</button>
-
-<div id="jobGallery"></div>
-
-<hr>
-
-<h3>Customer Reviews</h3>
-
-<div id="reviewsList"></div>
-
-</div>
-
-`;
-
-loadReviews();
-setTimeout(loadGallery,100);
-
-}
-
-let selectedRating = 0;
-
-function selectRating(rating){
-
-selectedRating = rating;
-
-alert(
-rating + " Star Selected"
-);
-
-}
-
-function submitReview(){
-
-const reviewText =
-document.getElementById(
-"reviewText"
-).value;
-
-if(selectedRating === 0){
-
-alert(
-"Please select rating"
-);
-
-return;
-
-}
-
-const reviews =
-JSON.parse(
-localStorage.getItem(
-"reviews"
-)
-) || [];
-
-reviews.push({
-
-workerPhone:
-selectedPhone,
-
-rating:
-selectedRating,
-
-review:
-reviewText
-
-});
-
-localStorage.setItem(
-
-"reviews",
-
-JSON.stringify(reviews)
-
-);
-
-alert(
-"Review Submitted"
-);
-
-loadReviews();
-
-document.getElementById(
-"reviewText"
-).value = "";
-
-}
-
-function loadReviews(){
-
-const reviews =
-JSON.parse(
-localStorage.getItem(
-"reviews"
-)
-) || [];
-
-const workerReviews =
-reviews.filter(
-
-review =>
-
-review.workerPhone ===
-selectedPhone
-
-);
-
-const reviewsList =
-document.getElementById(
-"reviewsList"
-);
-
-if(!reviewsList) return;
-
-reviewsList.innerHTML = "";
-
-workerReviews.forEach(
-
-review => {
-
-reviewsList.innerHTML += `
-
-<div class="worker-card">
-
-<p>
-⭐ ${review.rating}/5
 </p>
 
 <p>
-${review.review}
+📍 ${worker.location}
 </p>
+
+<p>
+📞 ${worker.phone}
+</p>
+
+<div class="worker-rating">
+
+⭐⭐⭐⭐⭐
+
+<span>
+
+Rating:
+${worker.rating || 5}/5
+
+</span>
 
 </div>
 
+<h3>
+
+📸 Previous Work
+
+</h3>
+
+<div id="myGallery">
+
+${photosHtml ||
+
+"<p>No work photos uploaded</p>"}
+
+</div>
+
+<h3>
+
+💬 Reviews
+
+</h3>
+
+<ul>
+
+${reviewsHtml ||
+
+"<li>No reviews yet</li>"}
+
+</ul>
+
+</div>
 `;
+
+}
 
 });
 
-}
+if(!found){
 
-function uploadJobImages(){
-
-const files =
 document.getElementById(
-"jobPhotos"
-).files;
+"workerProfileContainer"
+).innerHTML =
 
-if(files.length === 0){
-
-alert("Select images");
-
-return;
-
-}
-
-const images = [];
-
-for(let i=0;i<files.length;i++){
-
-const reader =
-new FileReader();
-
-reader.onload = function(e){
-
-images.push(
-e.target.result
-);
-
-if(images.length === files.length){
-
-localStorage.setItem(
-
-"jobImages_" +
-selectedPhone,
-
-JSON.stringify(images)
-
-);
-
-loadGallery();
-
-}
-
-};
-
-reader.readAsDataURL(
-files[i]
-);
+"<h2>Worker Not Found</h2>";
 
 }
 
 }
 
-function loadGallery(){
-
-const gallery =
-document.getElementById(
-"jobGallery"
-);
-
-if(!gallery) return;
-
-const images =
-JSON.parse(
-
-localStorage.getItem(
-"jobImages_" +
-selectedPhone
-)
-
-) || [];
-
-gallery.innerHTML = "";
-
-images.forEach(img=>{
-
-gallery.innerHTML += `
-
-<img
-src="${img}"
-style="
-width:120px;
-height:120px;
-object-fit:cover;
-margin:10px;
-border-radius:12px;
-">
-
-`;
-
-});
-
-}
+loadWorkerProfile();
