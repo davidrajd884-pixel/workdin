@@ -1,22 +1,25 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
 
 import {
 getFirestore,
 collection,
 addDoc,
 getDocs
-} from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
 const firebaseConfig = {
-apiKey: "AIzaSyAgz62QVCfzBnxIFUOGYEwqZADQ5_Dve0A",
-authDomain: "workdin-52c98.firebaseapp.com",
-projectId: "workdin-52c98",
-storageBucket: "workdin-52c98.firebasestorage.app",
-messagingSenderId: "209402633140",
-appId: "1:209402633140:web:5c73ce636c4244dde030e1"
+apiKey: "AIzaSyDIpwCvxlpzIiWv6hoDaHSFCRJ7X41-gGU",
+authDomain: "workdin-a654f.firebaseapp.com",
+projectId: "workdin-a654f",
+storageBucket: "workdin-a654f.firebasestorage.app",
+messagingSenderId: "938476466822",
+appId: "1:938476466822:web:a6e143bd24bb13b106d707"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-export { db, collection, addDoc, getDocs };
+window.db = db;
+window.collection = collection;
+window.addDoc = addDoc;
+window.getDocs = getDocs;
