@@ -236,17 +236,6 @@ onclick="openProfile('${worker.phone}')">
 });
 
 }
-function openProfile(phone){
-
-localStorage.setItem(
-"selectedWorker",
-phone
-);
-
-window.location.href =
-"worker-profile.html";
-
-}
 /* ==========================
    SEARCH WORKERS
 ========================== */
